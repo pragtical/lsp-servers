@@ -1,7 +1,8 @@
-
 name: Create PR to plugins
+
 on:
   workflow_dispatch:
+
 jobs:
   create_pr:
     name: Create PR to plugins
