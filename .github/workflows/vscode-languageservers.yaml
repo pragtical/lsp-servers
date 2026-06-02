@@ -1,0 +1,61 @@
+# VSCode Language Servers Update
+name: Package vscode-languageservers
+
+on:
+  workflow_dispatch:
+    inputs:
+      vscode_version:
+        type: string
+        required: true
+
+jobs:
+  package_all:
+    name: Package VSCode Language Servers
+    runs-on: ubuntu-latest
+    permissions: write-all
+    env:
+      VERSION: ${{ inputs.vscode_version }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Update Packages
+        run: sudo apt-get update -y
+      - name: Install Dependencies
+        run: sudo apt-get install -y npm nodejs
+      - name: Get vscode
+        run: |
+          curl -L -o "v${VERSION}.tar.gz" "https://github.com/microsoft/vscode/archive/refs/tags/${VERSION}.tar.gz"
+      - name: Build vscode-languageservers
+        run: |
+          tar -xzvf "v${VERSION}.tar.gz"
+          git apply --unidiff-zero --directory=vscode-${VERSION} patches/vscode-json-languageserver/*.patch --verbose
+          for server in json html css; do
+            pushd "vscode-${VERSION}/extensions/${server}-language-features/server"
+            npm i @vercel/ncc typescript@5.9.3
+            if [ "$server" = json ]; then
+              npx ncc build src/node/jsonServerNodeMain.ts --transpile-only --license LICENSES --external request-light
+            elif [ "$server" = html ]; then
+              npx ncc build src/node/htmlServerNodeMain.ts --transpile-only --license LICENSES --external typescript
+            else
+              npx ncc build src/node/cssServerNodeMain.ts --transpile-only --license LICENSES
+            fi
+            popd
+          done
+      - name: Package
+        run: |
+          mkdir vscode-json-languageserver vscode-html-languageserver vscode-css-languageserver
+          cp -r vscode-${VERSION}/LICENSE.txt vscode-${VERSION}/extensions/json-language-features/server/dist vscode-json-languageserver
+          cp -r vscode-${VERSION}/LICENSE.txt vscode-${VERSION}/extensions/html-language-features/server/dist vscode-html-languageserver
+          cp -r vscode-${VERSION}/LICENSE.txt vscode-${VERSION}/extensions/css-language-features/server/dist vscode-css-languageserver
+          cp -r vscode-${VERSION}/extensions/json-language-features/server/node_modules vscode-json-languageserver
+          cp -r vscode-${VERSION}/extensions/html-language-features/server/node_modules vscode-html-languageserver
+          tar -zcvf vscode-json-languageserver-${VERSION}.tar.gz vscode-json-languageserver
+          tar -zcvf vscode-html-languageserver-${VERSION}.tar.gz vscode-html-languageserver
+          tar -zcvf vscode-css-languageserver-${VERSION}.tar.gz vscode-css-languageserver
+      - name: Create Release
+        env: { GITHUB_TOKEN: "${{ github.token }}" }
+        run: |
+          gh release delete -y "vscode-languageservers-${VERSION}" || true
+          gh release create -t "vscode-languageservers-${VERSION}" "vscode-languageservers-${VERSION}" \
+            "vscode-json-languageserver-${VERSION}.tar.gz" \
+            "vscode-html-languageserver-${VERSION}.tar.gz" \
+            "vscode-css-languageserver-${VERSION}.tar.gz"
