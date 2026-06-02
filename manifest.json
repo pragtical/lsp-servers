@@ -473,12 +473,12 @@
     "id": "lsp_typescript",
     "description": "Automatic configuration/binary download for LSP completion for Typescript and Javascript with typescript-language-server.",
     "path": "plugins/lsp_typescript.lua",
-    "version": "4.3.4",
+    "version": "5.3.0",
     "mod_version": "3",
     "files": [
       {
-        "url": "https://github.com/pragtical/lsp-servers/releases/download/typescript-language-server-4.3.4/tsserver-4.3.4.tar.gz",
-        "checksum": "10f4314de1ab4fdcc3cb0787e0ddad32c9fdf3f607c47fca5c6bee4aa6ae0302"
+        "url": "https://github.com/pragtical/lsp-servers/releases/download/typescript-language-server-5.3.0/tsserver-5.3.0.tar.gz",
+        "checksum": "9fe202d14f9875be32dd3c3c9abc10470a886d783b0846057c7f2a696d2c39aa"
       }
     ],
     "dependencies": { "language_ts": {}, "language_js": {}, "lsp": {}, "nodejs": {} }
