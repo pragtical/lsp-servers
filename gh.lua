@@ -147,6 +147,28 @@ if ARGS[2] == "gh" and ARGS[3] == "create-stubs-pr" then
 end
 
 
+if ARGS[2] == "gh" and ARGS[3] == "create-addon-update-pr" then
+  ARGS = common.args(ARGS, { target = "string", source = "string", staging = "string", name = "string", ["no-pr"] = "flag", ["no-commit"] = "flag" })
+  ARGS.source = ARGS.source or retrieve_repository_origin(".") .. ":" .. run_command("git rev-parse HEAD"):gsub("%s+$", "")
+  ARGS.target = ARGS.target or "https://github.com/pragtical/plugins.git:master"
+  ARGS.staging = ARGS.staging or ARGS.target
+  ARGS.name = ARGS.name or "lsp-servers"
+  ARGS["ignore-version"] = true
+  local source_url, _, _, source_branch = retrieve_owner_project_branch(ARGS.source)
+  if source_url and source_branch and not common.is_commit_hash(source_branch) then
+    local source_commit = run_command("git ls-remote %s refs/heads/%s", source_url, source_branch):match("^(%S+)")
+    assert(source_commit, "can't find source branch from " .. ARGS.source)
+    ARGS.source = source_url .. ":" .. source_commit
+  end
+  local source_owner, source_project, source_commit = ARGS.source:match("github.com[:/]([^/]+)/([^/]+)%.git:([a-f0-9]+)$")
+  assert(source_owner and source_project and source_commit, "invalid source " .. ARGS.source)
+  local source_manifest = json.decode(common.get(string.format("https://raw.githubusercontent.com/%s/%s/%s/manifest.json", source_owner, source_project, source_commit)))
+  local source_addons = common.map(source_manifest.addons, function(addon) return addon.id end)
+  create_addon_pr(ARGS, source_addons)
+  os.exit(0)
+end
+
+
 -- options.target is the repository we want create our PRs in. 
 -- options.staging is the repository we want to create our branches in; can be the same as options.target.
 -- options.remotes will automatically pull in all entries for a remote, and mark them as stubs.
