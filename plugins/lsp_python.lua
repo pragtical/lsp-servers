@@ -14,11 +14,11 @@ local ok, node_info = pcall(require, "libraries.nodejs")
 local final_command
 
 if ok then
-  -- NodeJs installed with lpm, runs it.
+  -- NodeJs installed with ppm, runs it.
   final_command = {node_info.path_bin, server_path, "--stdio"}
   core.log_quiet("[lsp_python]: nodejs library found, using it to launch Pyright.")
 else
-  -- NodeJs not installed with lpm, tries to use the system path variable.
+  -- NodeJs not installed with ppm, tries to use the system path variable.
   final_command = {"node", server_path, "--stdio"}
   core.log_quiet("[lsp_python]: nodejs library not found, trying to use the 'node' path variable.")
 end

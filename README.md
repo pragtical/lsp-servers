@@ -1,7 +1,7 @@
-# Lite-XL LSP Servers
+# Pragtical LSP Servers
 
-A simple repo that contains plugins which automatically set up LSP servers with `lpm` or another
-Lite XL package manager.
+A simple repo that contains plugins which automatically set up LSP servers with `ppm` or another
+Pragtical package manager.
 
 LSP servers can still be setup manually; this just serves to make it really easy to install, use
 and depend on particular LSP servers functioning.
@@ -9,7 +9,7 @@ and depend on particular LSP servers functioning.
 ## Quickstart
 
 ```
-lpm add https://github.com/lite-xl/lite-xl-lsp-servers.git && lpm install <LSP Plugin>
+ppm add https://github.com/pragtical/lsp-servers.git && ppm install <LSP Plugin>
 ```
 
 ## Languages Supported
@@ -37,7 +37,7 @@ The following languages are supported, bundled with their particular language se
 
 ## Additional libraries
 
-These libraries are dependencies of some language servers (automatic installation with `lpm`).
+These libraries are dependencies of some language servers (automatic installation with `ppm`).
 
 | Library                               | Description                                 | Platforms           |
 | :------------------------------------ | :------------------------------------------ | :------------------ |
