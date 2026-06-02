@@ -539,27 +539,27 @@
       {
         "url": "https://github.com/pragtical/lsp-servers/releases/download/zls-0.16.0/zls-aarch64-linux.tar.gz",
         "arch": "aarch64-linux",
-        "checksum": "e0abac315e3ec0a3660b83c0753cd7d04a9e4b0df086b14d1e3fa93af695aa6d"
+        "checksum": "40f1101d9717d879ca9d75003a417049b9dbd010135d10a48782593b8da0812f"
       },
       {
         "url": "https://github.com/pragtical/lsp-servers/releases/download/zls-0.16.0/zls-x86-linux.tar.gz",
         "arch": "x86-linux",
-        "checksum": "ef26cc3a2e102d2ecc24df3164a993b51eb15e61530d476307d7fa3ff195bdde"
+        "checksum": "31df2ddedca2566b779bb999e478364cdd73e2b3b13358772d4f0b2d9ed5fb28"
       },
       {
         "url": "https://github.com/pragtical/lsp-servers/releases/download/zls-0.16.0/zls-x86_64-linux.tar.gz",
         "arch": "x86_64-linux",
-        "checksum": "efc78dfc8b52ed432d27bf60cd12cd8c7462fca8bd75c9bea8dad0e1aee76bc8"
+        "checksum": "25e4b375114ac149a0321f7e61bbdba8c9c806c70d5dcc075e7ba0e69a6d734d"
       },
       {
         "url": "https://github.com/pragtical/lsp-servers/releases/download/zls-0.16.0/zls-aarch64-macos.tar.gz",
         "arch": "aarch64-darwin",
-        "checksum": "12f1ef1c923c5a087814b053c3be6884811095037d4472f5b0f3a6671b3c5604"
+        "checksum": "dbe752676c0e2793dacc79357b034f37579f7c81cd53f1a72259e81b9368e255"
       },
       {
         "url": "https://github.com/pragtical/lsp-servers/releases/download/zls-0.16.0/zls-x86_64-macos.tar.gz",
         "arch": "x86_64-darwin",
-        "checksum": "903d0f645265c83e8395a04a2b4fbf63351539588f2949d7b8eedba58ef315c3"
+        "checksum": "93cee5075a30a4b10761e7e848cbd2819a486ebe2f7e1d0ded2c5b7e2d4d8244"
       },
       {
         "url": "https://github.com/zigtools/zls/releases/download/0.16.0/zls-x86_64-windows.zip",
