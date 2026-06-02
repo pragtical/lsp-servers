@@ -12,6 +12,12 @@ and depend on particular LSP servers functioning.
 ppm add https://github.com/pragtical/lsp-servers.git && ppm install <LSP Plugin>
 ```
 
+or
+
+```
+pragtical pm add https://github.com/pragtical/lsp-servers.git && pragtical pm install <LSP Plugin>
+```
+
 ## Languages Supported
 
 The following languages are supported, bundled with their particular language server.
@@ -20,12 +26,14 @@ The following languages are supported, bundled with their particular language se
 | :---------------------------------------------------- | :----------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------ |
 | [lsp_c](/plugins/lsp_c.lua?raw=1)                     | C, C++, Objective-C            | [clangd](https://github.com/clangd/clangd)                                                                                                                                         | Linux, Mac, Windows |
 | [lsp_clojure](/plugins/lsp_clojure.lua?raw=1)         | Clojure                        | [clojure-lsp](https://clojure-lsp.io/)                                                                                                                                             | Linux, Mac, Windows |
+| [lsp_css](/plugins/lsp_css.lua?raw=1)                 | CSS, LESS, SCSS                | [vscode-css-languageserver](https://github.com/microsoft/vscode/tree/main/extensions/css-language-features/server)                                                                 | Linux, Mac, Windows |
 | [lsp_d](/plugins/lsp_d.lua?raw=1)                     | D                              | [serve_d](https://github.com/Pure-D/serve-d)                                                                                                                                       | Linux, Mac, Windows |
 | [lsp_emmet](/plugins/lsp_emmet.lua?raw=1)             | JSX, TSX, HTML, XML, CSS, SCSS | [emmet-language-server](https://github.com/olrtg/emmet-language-server)                                                                                                            | Linux, Mac, Windows |
 | [lsp_go](/plugins/lsp_go.lua?raw=1)                   | Go                             | [gopls](https://github.com/golang/tools)                                                                                                                                           | Linux, Mac, Windows |
 | [lsp_haxe](/plugins/lsp_haxe.lua?raw=1)               | Haxe                           | [haxe-language-server](https://github.com/vshaxe/haxe-language-server)                                                                                                             | Linux, Mac, Windows |
+| [lsp_html](/plugins/lsp_html.lua?raw=1)               | HTML                           | [vscode-html-languageserver](https://github.com/microsoft/vscode/tree/main/extensions/html-language-features/server)                                                               | Linux, Mac, Windows |
 | [lsp_java](/plugins/lsp_java.lua?raw=1)               | Java                           | [jdtls](https://github.com/eclipse-jdtls/eclipse.jdt.ls)                                                                                                                           | Linux, Mac, Windows |
-| [lsp_json](/plugins/lsp_json.lua?raw=1)               | JSON                           | [vscode-json-languageserver](https://github.com/microsoft/vscode/tree/main/extensions/json-language-features/server) with [additional patches](patches/vscode-json-languageserver) | Linux, Mac, Windows |
+| [lsp_json](/plugins/lsp_json.lua?raw=1)               | JSON                           | [vscode-json-languageserver](https://github.com/microsoft/vscode/tree/main/extensions/json-language-features/server) with [SchemaStore integration](patches/vscode-json-languageserver) | Linux, Mac, Windows |
 | [lsp_lua](/plugins/lsp_lua.lua?raw=1)                 | Lua                            | [sumneko_lua](https://github.com/sumneko/lua-language-server)                                                                                                                      | Linux, Mac, Windows |
 | [lsp_python](/plugins/lsp_python.lua?raw=1)           | Python                         | [pyright](https://github.com/Microsoft/pyright)                                                                                                                                    | Linux, Mac, Windows |
 | [lsp_quicklintjs](/plugins/lsp_quicklintjs.lua?raw=1) | Javascript                     | [quick-lint-js](https://quick-lint-js.com/)                                                                                                                                        | Linux, Mac, Windows |

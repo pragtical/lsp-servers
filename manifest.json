@@ -61,6 +61,22 @@
       "lsp": {}
     }
   },{
+    "id": "lsp_css",
+    "description": "LSP support for CSS, LESS, and SCSS via vscode-css-languageserver.",
+    "path": "plugins/lsp_css.lua",
+    "version": "1.122.1",
+    "mod_version": "3",
+    "files": [
+      {
+        "url": "https://github.com/pragtical/lsp-servers/releases/download/vscode-languageservers-1.122.1/vscode-css-languageserver-1.122.1.tar.gz",
+        "checksum": "c610137fc9c8b2a455b7f4b63af406e6d0c92aa9c64a2292636183e226142951"
+      }
+    ],
+    "dependencies": {
+      "language_css": {},
+      "lsp": {}, "nodejs": {}
+    }
+  },{
     "id": "lsp_d",
     "description": "Automatic configuration/binary download for LSP completion for D with serve_d.",
     "path": "plugins/lsp_d.lua",
@@ -93,7 +109,7 @@
     "files": [
       {
         "url": "https://github.com/pragtical/lsp-servers/releases/download/emmet-language-server-2.7.0/emmet-language-server-2.7.0.tar.gz",
-        "checksum": "33dc096c6b381deda482005cc196d22f38ad34c7283a72399002bf1819dabde5"
+        "checksum": "3d29f81309fedf55df3309d5fbb031863bdf698a769771aaea06ee63759b268b"
       }
     ],
     "dependencies": {
@@ -149,32 +165,32 @@
       {
         "url": "https://github.com/pragtical/lsp-servers/releases/download/gopls-0.19.1/gopls-0.19.1-amd64-darwin.tar.gz",
         "arch": ["x86_64-darwin"],
-        "checksum": "4b0614544b83443d11adfb25887fcbda8c0c716f0a1f66a09c13abe077a5b7b1"
+        "checksum": "6f06f4b8d8b154ee8b8ebd009e5f00f0a2529405c072ddd33de9c7cad9358504"
       },
       {
         "url": "https://github.com/pragtical/lsp-servers/releases/download/gopls-0.19.1/gopls-0.19.1-amd64-linux.tar.gz",
         "arch": ["x86_64-linux"],
-        "checksum": "bb86502b11ff001a64169640ab4469512049cc0386a7a5735a6b05a438cf398b"
+        "checksum": "efb922bedf92083da431230e16814186c1d2cb827e83e5d109c12b4ae5fa6af2"
       },
       {
         "url": "https://github.com/pragtical/lsp-servers/releases/download/gopls-0.19.1/gopls-0.19.1-amd64-windows.tar.gz",
         "arch": ["x86_64-windows"],
-        "checksum": "94060d17a8a33f4a6f879f36d4b5545f236784e2a5ed3faddd858b78a39de267"
+        "checksum": "5159e81e8ca3fd9ad39a4817336350a80f10d974a7ea8a3d6b0cbb68648d3e2d"
       },
       {
         "url": "https://github.com/pragtical/lsp-servers/releases/download/gopls-0.19.1/gopls-0.19.1-arm64-darwin.tar.gz",
         "arch": ["aarch64-darwin"],
-        "checksum": "3d7fa8af0a1068de29eddbe462925ba867910da107b122f75104d51a7c745d76"
+        "checksum": "cd4c96202d4fc8419075cffcf347f47b2f70c3759ab84bc82af0c9fc2cd9dc18"
       },
       {
         "url": "https://github.com/pragtical/lsp-servers/releases/download/gopls-0.19.1/gopls-0.19.1-arm64-linux.tar.gz",
         "arch": ["aarch64-linux"],
-        "checksum": "994f3a58e30e19e71c9189a8432faa4c7b127bce2c562fcc56e97a5b63293d54"
+        "checksum": "c0d2c5148d03857093b106289488e2eb5fd1a5a2035b245a397ef1d0973c8444"
       },
       {
         "url": "https://github.com/pragtical/lsp-servers/releases/download/gopls-0.19.1/gopls-0.19.1-arm64-windows.tar.gz",
         "arch": ["aarch64-windows"],
-        "checksum": "96c57956f6adf159a396e1cf669f3d6e375a1c51575a188fa4338ca652a89693"
+        "checksum": "309489cd4e8428cae5c83265f253e0fce460f6081fe95ad4cb21eda3b6d26083"
       }
     ],
     "dependencies": {
@@ -230,14 +246,14 @@
     }
   },{
     "id": "lsp_json",
-    "description": "LSP support for JSON via vscode-json-languageserver with [additional patches](https://github.com/pragtical/lsp-servers/tree/latest/patches/vscode-json-languageserver) for increased functionality.",
+    "description": "LSP support for JSON via vscode-json-languageserver with [SchemaStore integration](https://github.com/pragtical/lsp-servers/tree/latest/patches/vscode-json-languageserver).",
     "path": "plugins/lsp_json.lua",
-    "version": "1.102.3.0.2",
+    "version": "1.122.1",
     "mod_version": "3",
     "files": [
       {
-        "url": "https://github.com/pragtical/lsp-servers/releases/download/vscode-json-languageserver-1.102.3-patch-0.2/vscode-json-languageserver-1.102.3-patch-0.2.tar.gz",
-        "checksum": "c220554f3eb406c5322496221cc31780faf3ebd02181fcf034e6c2fd7679c672"
+        "url": "https://github.com/pragtical/lsp-servers/releases/download/vscode-languageservers-1.122.1/vscode-json-languageserver-1.122.1.tar.gz",
+        "checksum": "260be4ddd08fa1695126f17618e91c4d20e2a52734805cbece1d2b8eab0613f7"
       }
     ],
     "dependencies": {
@@ -301,6 +317,22 @@
         "checksum": "683aad49e0a146c725d922efeaffe877deb108e58ee270ac5529467cf9bdd7ec"
       }
     ]
+  },{
+    "id": "lsp_html",
+    "description": "LSP support for HTML via vscode-html-languageserver.",
+    "path": "plugins/lsp_html.lua",
+    "version": "1.122.1",
+    "mod_version": "3",
+    "files": [
+      {
+        "url": "https://github.com/pragtical/lsp-servers/releases/download/vscode-languageservers-1.122.1/vscode-html-languageserver-1.122.1.tar.gz",
+        "checksum": "f315402859653b433f606e05f91110d52e44d2548fd127ca916831cbad9c4ae5"
+      }
+    ],
+    "dependencies": {
+      "language_html": {},
+      "lsp": {}, "nodejs": {}
+    }
   },{
     "id": "lsp_java",
     "description": "Automatic configuration/binary download for LSP completion for Java with jdtls.",
