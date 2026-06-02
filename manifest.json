@@ -8,7 +8,7 @@
     "files": [
       {
         "url": "https://github.com/pragtical/lsp-servers/releases/download/bash-language-server-5.6.0/bash-language-server-5.6.0.tar.gz",
-        "checksum": "d3673fa237e55b9497cbce01824594ec3de9f00aaadd6de73e237301163f62f3"
+        "checksum": "769a4c582d4438c1552849d8140e45b92fafb6b4c33e1563fd6541910af7cb29"
       }
     ],
     "dependencies": { "language_sh": {}, "lsp": {}, "nodejs": {} }
