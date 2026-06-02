@@ -376,6 +376,19 @@
       }
     ]
   },{
+    "id": "lsp_php",
+    "description": "LSP support for PHP via Intelephense.",
+    "path": "plugins/lsp_php.lua",
+    "version": "1.18.4",
+    "mod_version": "3",
+    "files": [
+      {
+        "url": "https://registry.npmjs.org/intelephense/-/intelephense-1.18.4.tgz",
+        "checksum": "251f00602d563d5f562f080986b3153503d1e28ebf0ce45359962a02d23b2d03"
+      }
+    ],
+    "dependencies": { "language_php": {}, "lsp": {}, "nodejs": {} }
+  },{
     "id": "lsp_python",
     "description": "Automatic configuration/binary download for LSP completion for Python with Pyright.",
     "path": "plugins/lsp_python.lua",
