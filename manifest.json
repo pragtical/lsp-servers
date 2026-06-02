@@ -1,5 +1,18 @@
 {
   "addons": [{
+    "id": "lsp_bash",
+    "description": "Automatic configuration/binary download for LSP completion for Bash with bash-language-server.",
+    "path": "plugins/lsp_bash.lua",
+    "version": "5.6.0",
+    "mod_version": "3",
+    "files": [
+      {
+        "url": "https://github.com/pragtical/lsp-servers/releases/download/bash-language-server-5.6.0/bash-language-server-5.6.0.tar.gz",
+        "checksum": "d3673fa237e55b9497cbce01824594ec3de9f00aaadd6de73e237301163f62f3"
+      }
+    ],
+    "dependencies": { "language_sh": {}, "lsp": {}, "nodejs": {} }
+  },{
     "id": "lsp_c",
     "description": "Automatic configuration/binary download for LSP completion for C/C++ with clangd.",
     "path": "plugins/lsp_c.lua",

@@ -1,0 +1,42 @@
+# Bash Language Server Update
+name: Package bash-language-server
+
+on:
+  workflow_dispatch:
+    inputs:
+      bash-language-server_version:
+        type: string
+        required: true
+
+jobs:
+  package_all:
+    name: Package Bash Language Server
+    runs-on: ubuntu-latest
+    permissions: write-all
+    env:
+      VERSION: ${{ inputs.bash-language-server_version }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Update Packages
+        run: sudo apt-get update -y
+      - name: Install Dependencies
+        run: sudo apt-get install -y npm nodejs
+      - name: Get bash-language-server
+        run: |
+          npm pack "bash-language-server@${VERSION}"
+          tar -xzvf "bash-language-server-${VERSION}.tgz"
+      - name: Install Runtime Dependencies
+        run: |
+          cd package
+          npm install --omit=dev
+      - name: Package
+        run: |
+          mkdir bundle
+          cp -r package/{README.md,parser.info,out,package.json,tree-sitter-bash.wasm,node_modules} bundle
+          mv bundle bash-language-server
+          tar -zcvf bash-language-server-${VERSION}.tar.gz bash-language-server
+      - name: Create Release
+        env: { GITHUB_TOKEN: "${{ github.token }}" }
+        run: |
+          gh release delete -y "bash-language-server-$VERSION" || true
+          gh release create -t "bash-language-server-$VERSION" "bash-language-server-$VERSION" "bash-language-server-${VERSION}.tar.gz"
