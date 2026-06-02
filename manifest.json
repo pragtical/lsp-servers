@@ -518,11 +518,11 @@
     "id": "lsp_yaml",
     "description": "LSP support for YAML via yaml-language-server.",
     "path": "plugins/lsp_yaml.lua",
-    "version": "1.18.0",
+    "version": "1.23.0",
     "files": [
       {
-        "url": "https://github.com/pragtical/lsp-servers/releases/download/yaml-language-server-1.18.0/yaml-language-server-1.18.0.tar.gz",
-        "checksum": "2420a4cdf206ad0e078fab0cd643abf3d3004fbc4ce6d97fe835807be0cb52e7"
+        "url": "https://github.com/pragtical/lsp-servers/releases/download/yaml-language-server-1.23.0/yaml-language-server-1.23.0.tar.gz",
+        "checksum": "f573c4431401bbee5ec8db3ba00d27214c76458e5df2af2cf3c5a42cd8289726"
       }
     ],
     "dependencies": {
