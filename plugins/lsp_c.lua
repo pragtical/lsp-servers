@@ -5,7 +5,7 @@ local common = require "core.common"
 local config = require "core.config"
 
 local installed_path = USERDIR .. PATHSEP .. "plugins" .. PATHSEP .. "lsp_c"
-local clangd_version = "20.1.8"
+local clangd_version = "23.1.0"
 
 lspconfig.clangd.setup(common.merge({
   command = { installed_path .. PATHSEP .. "clangd_" .. clangd_version .. PATHSEP .. "bin" .. PATHSEP .. "clangd" .. (PLATFORM == "Windows" and ".exe" or "") }

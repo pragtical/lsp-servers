@@ -7,6 +7,7 @@ on:
       zls_version:
         type: string
         required: true
+        default: "0.17.0"
 
 jobs:
   package_all:
@@ -20,17 +21,19 @@ jobs:
       - name: Update Packages
         run: sudo apt-get update -y
       - name: Install Dependencies
-        run: sudo apt-get install -y atool
+        run: sudo apt-get install -y xz-utils
       - name: Get zls
         run: |
           for arch in aarch64-linux aarch64-macos x86-linux x86_64-linux x86_64-macos; do
-            curl -L -o "zls-${arch}.tar.xz" "https://github.com/zigtools/zls/releases/download/${VERSION}/zls-${arch}.tar.xz"
+            curl -fL -o "zls-${arch}.tar.xz" "https://github.com/zigtools/zls/releases/download/${VERSION}/zls-${arch}.tar.xz"
           done
       - name: Repack zls
         run: |
-          arepack -F tar+gz -e *.tar.xz
-          for archive in *.tar.tar.gz; do
-            mv ${archive} ${archive/.tar.tar/.tar}
+          for archive in *.tar.xz; do
+            directory="${archive%.tar.xz}"
+            mkdir "$directory"
+            tar -xJf "$archive" -C "$directory"
+            tar --sort=name --mtime=@0 --owner=0 --group=0 --numeric-owner -zcf "${directory}.tar.gz" -C "$directory" .
           done
       - name: Create Release
         env: { GITHUB_TOKEN: "${{ github.token }}" }

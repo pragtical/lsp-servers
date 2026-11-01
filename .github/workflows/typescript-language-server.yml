@@ -7,10 +7,12 @@ on:
       typescript-language-server_version:
         type: string
         required: true
+        default: "6.0.2"
       tsserver_version:
+        description: "Compatible TypeScript tsserver package (TypeScript 6.x)"
         type: string
         required: false
-        default: "5.7.3"
+        default: "6.0.3"
 
 jobs:
   package_all:
@@ -22,32 +24,27 @@ jobs:
       TS_VERSION: ${{ inputs.tsserver_version }}
     steps:
       - uses: actions/checkout@v4
-      - name: Update Packages
-        run: sudo apt-get update -y
-      - name: Install Dependencies
-        run: sudo apt-get install -y yarn
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22.23.4"
       - name: Get typescript-language-server
         run: |
-          curl -L -o "v${VERSION}.tar.gz" "https://github.com/typescript-language-server/typescript-language-server/archive/refs/tags/v${VERSION}.tar.gz"
-      - name: Build typescript-language-server
-        run: |
-          tar -xzvf "v${VERSION}.tar.gz"
-          cd "typescript-language-server-${VERSION}"
-          yarn
-          yarn build
-          rm lib/cli.mjs.map
+          npm pack "typescript-language-server@${VERSION}"
+          mkdir server
+          tar -xzf "typescript-language-server-${VERSION}.tgz" --strip-components=1 -C server
       - name: Get Typescript
         run: |
-          curl -L -o "typescript-${TS_VERSION}.tgz" "https://github.com/microsoft/TypeScript/releases/download/v${TS_VERSION}/typescript-${TS_VERSION}.tgz"
-          tar -xzvf "typescript-${TS_VERSION}.tgz"
+          npm pack "typescript@${TS_VERSION}"
+          mkdir typescript
+          tar -xzf "typescript-${TS_VERSION}.tgz" --strip-components=1 -C typescript
       - name: Package
         run: |
           mkdir bundle
-          cp -r typescript-language-server-${VERSION}/{package.json,lib,LICENSE} bundle
+          cp -r server/{package.json,lib,LICENSE} bundle
           mkdir -p bundle/node_modules/typescript
-          cp -r package/* bundle/node_modules/typescript
+          cp -r typescript/. bundle/node_modules/typescript
           mv bundle tsserver
-          tar -zcvf tsserver-${VERSION}.tar.gz tsserver
+          tar --sort=name --mtime=@0 --owner=0 --group=0 --numeric-owner -zcf tsserver-${VERSION}.tar.gz tsserver
       - name: Create Release
         env: { GITHUB_TOKEN: "${{ github.token }}" }
         run: |

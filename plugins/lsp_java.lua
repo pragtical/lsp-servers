@@ -11,14 +11,14 @@ local platform
 if PLATFORM == "Windows" then
   platform = "win"
 elseif PLATFORM == "Mac OS X" then
-  platform = "mac"
+  platform = ARCH == "aarch64-darwin" and "mac_arm" or "mac"
 else
-  platform = "linux"
+  platform = ARCH == "aarch64-linux" and "linux_arm" or "linux"
 end
 
 local jdtls_data_path = ".jdtls"
 -- You can find this in /config_linux/config.ini, search for `:org.eclipse.equinox.launcher`, it's right next to it
-local jdtls_version_name  = "1.7.0.v20250519-0528"
+local jdtls_version_name  = "1.8.0.v20260804-1928"
 local jdtls_command = { jdk_info.path_bin,
                         "-Declipse.application=org.eclipse.jdt.ls.core.id1",
                         "-Dosgi.bundles.defaultStartLevel=4",
@@ -37,6 +37,6 @@ lsp.add_server(common.merge({
   language = "java",
   file_patterns = { "%.java$" },
   command = jdtls_command,
-  env = { ["JAVA_HOME"] = jdk_info.path_lib },
+  env = { ["JAVA_HOME"] = jdk_info.path_home },
   verbose = false
 }, config.plugins.lsp_java or {}))

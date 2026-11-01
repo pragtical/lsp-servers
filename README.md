@@ -55,3 +55,16 @@ These libraries are dependencies of some language servers (automatic installatio
 | [haxe](/libraries/haxe.lua?raw=1)     | Haxe binaries for running haxe apps         | Linux, Mac, Windows |
 | [jdk](/libraries/jdk.lua?raw=1)       | JDK binaries for running java apps          | Linux, Mac, Windows |
 | [nodejs](/libraries/nodejs.lua?raw=1) | NodeJs binaries for running javascript apps | Linux, Mac, Windows |
+
+## Validation
+
+See [the smoke tests](tests/README.md) for testing installed packages through
+the commands configured by the helper plugins. The tests cover initialization
+and document symbols, completion, or diagnostics, including both Python servers.
+
+Packaging workflows pin the Node runtime and use dependency locks from
+`package-locks/` for the tested versions. Archives normalize timestamps and
+ownership so rebuilds can be checked against the manifest checksums.
+
+Publish the matching release artifacts before distributing manifest changes
+that reference newly repackaged servers.

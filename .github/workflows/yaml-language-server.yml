@@ -7,6 +7,7 @@ on:
       yaml-language-server_version:
         type: string
         required: true
+        default: "2.0.0"
 
 jobs:
   package_all:
@@ -17,33 +18,29 @@ jobs:
       VERSION: ${{ inputs.yaml-language-server_version }}
     steps:
       - uses: actions/checkout@v4
-      - name: Update Packages
-        run: sudo apt-get update -y
-      - name: Install Dependencies
-        run: sudo apt-get install -y npm nodejs
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22.23.4"
       - name: Get yaml-language-server
         run: |
-          curl -L -o "v${VERSION}.tar.gz" "https://github.com/redhat-developer/yaml-language-server/archive/refs/tags/${VERSION}.tar.gz"
-      - name: Build yaml-language-server
+          npm pack "yaml-language-server@${VERSION}"
+          tar -xzf "yaml-language-server-${VERSION}.tgz"
+      - name: Install Runtime Dependencies
         run: |
-          tar -xzvf "v${VERSION}.tar.gz"
-          cd "yaml-language-server-${VERSION}"
-          npm install @vercel/ncc
-          # enable ** for globbing subdirs too
-          shopt -s globstar
-          # replace /umd/ with /esm/ in some require paths,
-          # as /umd/ files don't seem to get picked up by ncc
-          sed -i 's/\/umd\//\/esm\//g' src/**/*.ts
-          sed -i 's/\/umd\//\/esm\//g' node_modules/vscode-json-languageservice/package.json
-          sed -i "s/path.join(__dirname, '..\\/..\\/..\\/l10n')/path.join(__dirname, '..\\/l10n')/" src/nodeTranslationSetup.ts
-          node node_modules/@vercel/ncc/dist/ncc/cli.js build src/server.ts --license LICENSES
-          rm -rf dist/src dist/test
+          cd package
+          lockfile="$GITHUB_WORKSPACE/package-locks/yaml-language-server-${VERSION}.json"
+          if [ -f "$lockfile" ]; then
+            cp "$lockfile" package-lock.json
+            npm ci --omit=dev --ignore-scripts --no-audit --no-fund
+          else
+            npm install --omit=dev --ignore-scripts --no-audit --no-fund
+          fi
       - name: Package
         run: |
           mkdir bundle
-          cp -r yaml-language-server-${VERSION}/{LICENSE,dist,l10n} bundle
+          cp -r package/{LICENSE,package.json,bin,out,l10n,node_modules} bundle
           mv bundle yaml-language-server
-          tar -zcvf yaml-language-server-${VERSION}.tar.gz yaml-language-server
+          tar --sort=name --mtime=@0 --owner=0 --group=0 --numeric-owner -zcf yaml-language-server-${VERSION}.tar.gz yaml-language-server
       - name: Create Release
         env: { GITHUB_TOKEN: "${{ github.token }}" }
         run: |

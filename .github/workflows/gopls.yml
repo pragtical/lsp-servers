@@ -7,10 +7,11 @@ on:
       gopls_version:
         type: string
         required: true
+        default: "0.24.0"
       go_version:
         type: string
         required: true
-        default: "1.24.2"
+        default: "1.27.3"
 
 jobs:
   package_all:
@@ -35,11 +36,13 @@ jobs:
           export CGO_ENABLED=0
           export GOOS=${{ matrix.os }}
           export GOARCH=${{ matrix.arch }}
-          go build -buildmode=pie
+          go build -trimpath -buildvcs=false -ldflags="-buildid=" -buildmode=pie
       - name: Pack gopls
         run: |
           cd tools/gopls
-          tar -zcvf gopls-${VERSION}-${{ matrix.arch }}-${{ matrix.os }}.tar.gz gopls*
+          binary=gopls
+          if [ "${{ matrix.os }}" = windows ]; then binary=gopls.exe; fi
+          tar --sort=name --mtime=@0 --owner=0 --group=0 --numeric-owner -zcf gopls-${VERSION}-${{ matrix.arch }}-${{ matrix.os }}.tar.gz "$binary"
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:

@@ -1,49 +1,40 @@
 diff --git a/extensions/json-language-features/server/src/jsonServer.ts b/extensions/json-language-features/server/src/jsonServer.ts
 --- a/extensions/json-language-features/server/src/jsonServer.ts
 +++ b/extensions/json-language-features/server/src/jsonServer.ts
-@@ -17,0 +18 @@
-+import requestLight from 'request-light';
-@@ -147,0 +149,2 @@
-+		setSchemaStoreSettingsIfNotSet();
-+
-@@ -245,0 +249 @@
+@@ -247,5 +247,6 @@ export function startServer(connection: Connection, runtime: RuntimeEnvironment) {
+ 	let jsonConfigurationSettings: JSONSchemaSettings[] | undefined = undefined;
+ 	let schemaAssociations: ISchemaAssociations | SchemaConfiguration[] | undefined = undefined;
 +	let schemaStoreSettings: SchemaConfiguration[] = [];
-@@ -294,0 +299,34 @@
-+
-+	function setSchemaStoreSettingsIfNotSet() {
-+		if (schemaStoreSettings.length > 0) {
-+			return;
-+		}
-+		getSchemaStoreMatchingSchemas().then(schemas => {
-+			schemaStoreSettings = schemas;
-+			updateConfiguration();
-+		}, error => {
-+			connection.console.error(`Unable to fetch SchemaStore catalog: ${error}`);
-+		});
-+	}
-+
-+	function getSchemaStoreMatchingSchemas(): Promise<SchemaConfiguration[]> {
-+		return requestLight.xhr({
-+			url: 'https://www.schemastore.org/api/json/catalog.json',
-+			followRedirects: 5
-+		}).then(response => {
-+			const catalog = JSON.parse(response.responseText);
-+			const schemas = new Array<SchemaConfiguration>();
-+
-+			for (const schema of catalog.schemas) {
-+				schemas.push({
+ 	let formatterRegistrations: Thenable<Disposable>[] | null = null;
+ 	let validateEnabled = true;
+ 	let commentsSeverity: SeverityLevel | undefined = undefined;
+@@ -257,5 +258,20 @@ export function startServer(connection: Connection, runtime: RuntimeEnvironment) {
+ 	let keepLinesEnabled = false;
+ 
++	connection.onInitialized(() => {
++		if (runtime.http) {
++			runtime.http.getContent('https://www.schemastore.org/api/json/catalog.json').then(content => {
++				const catalog = JSON.parse(content);
++				schemaStoreSettings = catalog.schemas.map((schema: { url: string; fileMatch?: string[] }) => ({
 +					uri: schema.url,
 +					fileMatch: schema.fileMatch || []
-+				});
-+			}
-+
-+			return schemas;
-+		}, error => {
-+			throw error;
-+		});
-+	}
-+
-@@ -393,0 +431,3 @@
-+		if (schemaStoreSettings.length > 0) {
-+			languageSettings.schemas.push(...schemaStoreSettings);
++				}));
++				updateConfiguration();
++			}).catch(error => {
++				connection.console.error(`Unable to fetch SchemaStore catalog: ${error}`);
++			});
 +		}
++	});
++
+ 	// The settings have changed. Is sent on server activation as well.
+ 	connection.onDidChangeConfiguration((change) => {
+ 		const settings = <Settings>change.settings;
+@@ -361,7 +377,7 @@ export function startServer(connection: Connection, runtime: RuntimeEnvironment) {
+ 		const languageSettings = {
+ 			validate: validateEnabled,
+ 			allowComments: true,
+-			schemas: new Array<SchemaConfiguration>()
++			schemas: [...schemaStoreSettings]
+ 		};
+ 		if (schemaAssociations) {
+ 			if (Array.isArray(schemaAssociations)) {
