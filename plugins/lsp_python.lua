@@ -45,6 +45,8 @@ if plugin_config.ruff ~= false then
       ruff_target = "ruff-aarch64-apple-darwin"
     elseif ARCH == "x86_64-darwin" then
       ruff_target = "ruff-x86_64-apple-darwin"
+    elseif ARCH == "aarch64-linux" then
+      ruff_target = "ruff-aarch64-unknown-linux-gnu"
     else
       ruff_target = "ruff-x86_64-unknown-linux-gnu"
     end

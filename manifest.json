@@ -150,7 +150,7 @@
       {
         "url": "https://go.dev/dl/go1.24.5.linux-arm64.tar.gz",
         "arch": ["aarch64-linux"],
-        "checksum": "10ad9e86233e74c0f6590fe5426895de6bf388964210eac34a6d83f38918ecdc11111"
+        "checksum": "0df02e6aeb3d3c06c95ff201d575907c736d6c62cfa4b6934c11203f1d600ffa"
       },
       {
         "url": "https://go.dev/dl/go1.24.5.windows-amd64.zip",
@@ -222,6 +222,11 @@
         "url": "https://github.com/HaxeFoundation/haxe/releases/download/4.3.7/haxe-4.3.7-linux64.tar.gz",
         "arch": ["x86_64-linux"],
         "checksum": "a156b3d039daa572f1f9329870ee753e3c39b7514fe8c818069323579659acca"
+      },
+      {
+        "url": "https://github.com/HaxeFoundation/haxe/releases/download/4.3.7/haxe-4.3.7-linux-arm64.tar.gz",
+        "arch": ["aarch64-linux"],
+        "checksum": "003f6bdbbd1e028b81123d3d5efe4ea7bd20d9afcbd54206606a33b5f165724a"
       },
       {
         "url": "https://github.com/HaxeFoundation/haxe/releases/download/4.3.7/haxe-4.3.7-osx.tar.gz",
@@ -296,6 +301,11 @@
         "checksum": "ca71415dd19f19e30aaa35a4915aefca9fdb5fec31b98331cc3d77f778d539c5"
       },
       {
+        "url": "https://github.com/LuaLS/lua-language-server/releases/download/3.18.2/lua-language-server-3.18.2-linux-arm64.tar.gz",
+        "arch": "aarch64-linux",
+        "checksum": "273af33f26f4a1143f27c96d9f9e1188aba619c71e0807042134f66b4bd27f24"
+      },
+      {
         "url": "https://github.com/LuaLS/lua-language-server/releases/download/3.18.2/lua-language-server-3.18.2-win32-x64.zip",
         "arch": "x86_64-windows",
         "checksum": "a4439a8f5e8e9e6505c11f045a7bf45db602124a1e246371c1dbe34924f3cf71"
@@ -313,6 +323,11 @@
         "url": "https://download.java.net/java/GA/jdk24.0.2/fdc5d0102fe0414db21410ad5834341f/12/GPL/openjdk-24.0.2_linux-x64_bin.tar.gz",
         "arch": ["x86_64-linux"],
         "checksum": "635050717feab0e4c283c8e90e79e944a2b65a3b6b21f1d37dcaadad4cc29548"
+      },
+      {
+        "url": "https://download.java.net/java/GA/jdk24.0.2/fdc5d0102fe0414db21410ad5834341f/12/GPL/openjdk-24.0.2_linux-aarch64_bin.tar.gz",
+        "arch": ["aarch64-linux"],
+        "checksum": "1c2164216387c2f5cbacc7e96ecaa51168d954ac3805312b0a7d4d1e2726f58a"
       },
       {
         "url": "https://download.java.net/java/GA/jdk24.0.2/fdc5d0102fe0414db21410ad5834341f/12/GPL/openjdk-24.0.2_macos-aarch64_bin.tar.gz",
@@ -415,13 +430,18 @@
     "files": [
       {
         "url": "https://registry.npmjs.org/pyright/-/pyright-1.1.403.tgz",
-        "arch": ["x86_64-linux", "x86_64-windows", "x86_64-darwin", "aarch64-darwin"],
+        "arch": ["x86_64-linux", "aarch64-linux", "x86_64-windows", "x86_64-darwin", "aarch64-darwin"],
         "checksum": "d62b36fcff0a5f67b8cfc25b5618bc232a8e0b714593e25a83cdbba3d47eec9d"
       },
       {
         "url": "https://github.com/astral-sh/ruff/releases/download/0.15.15/ruff-x86_64-unknown-linux-gnu.tar.gz",
         "arch": "x86_64-linux",
         "checksum": "2c50f95a0f553731c87f8dc413465aa06059a0dc21dfe16786682db95ffeb9dc"
+      },
+      {
+        "url": "https://github.com/astral-sh/ruff/releases/download/0.15.15/ruff-aarch64-unknown-linux-gnu.tar.gz",
+        "arch": "aarch64-linux",
+        "checksum": "d334ae13383977fdaf754e6ea3d85c7b3ccbd510c713463eca73d0cd7151fe12"
       },
       {
         "url": "https://github.com/astral-sh/ruff/releases/download/0.15.15/ruff-x86_64-pc-windows-msvc.zip",
@@ -534,6 +554,11 @@
         "url": "https://github.com/latex-lsp/texlab/releases/download/v5.23.1/texlab-x86_64-linux.tar.gz",
         "arch": "x86_64-linux",
         "checksum": "73655db906ec9885a550950b092801d3e8ab56f5f057f95698370295665db331"
+      },
+      {
+        "url": "https://github.com/latex-lsp/texlab/releases/download/v5.23.1/texlab-aarch64-linux.tar.gz",
+        "arch": "aarch64-linux",
+        "checksum": "7d881f5af7295c8c23eac8c7c7fc8708df38802d9fef582131ccbcd7d2244c69"
       },
       {
         "url": "https://github.com/latex-lsp/texlab/releases/download/v5.23.1/texlab-aarch64-macos.tar.gz",
