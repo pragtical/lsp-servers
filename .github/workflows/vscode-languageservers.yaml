@@ -2,6 +2,11 @@
 name: Package vscode-languageservers
 
 on:
+  workflow_call:
+    inputs:
+      vscode_version:
+        type: string
+        required: true
   workflow_dispatch:
     inputs:
       vscode_version:
@@ -13,7 +18,8 @@ jobs:
   package_all:
     name: Package VSCode Language Servers
     runs-on: ubuntu-latest
-    permissions: write-all
+    permissions:
+      contents: write
     env:
       VERSION: ${{ inputs.vscode_version }}
     steps:
@@ -64,7 +70,7 @@ jobs:
         env: { GITHUB_TOKEN: "${{ github.token }}" }
         run: |
           gh release delete -y "vscode-languageservers-${VERSION}" || true
-          gh release create -t "vscode-languageservers-${VERSION}" "vscode-languageservers-${VERSION}" \
+          gh release create --target "${{ github.sha }}" -t "vscode-languageservers-${VERSION}" "vscode-languageservers-${VERSION}" \
             "vscode-json-languageserver-${VERSION}.tar.gz" \
             "vscode-html-languageserver-${VERSION}.tar.gz" \
             "vscode-css-languageserver-${VERSION}.tar.gz"

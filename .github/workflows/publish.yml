@@ -1,0 +1,142 @@
+name: Publish language server updates
+
+on:
+  push:
+    tags: ["lsp-servers-*"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: publish-language-servers
+  cancel-in-progress: false
+
+jobs:
+  versions:
+    name: Read manifest versions
+    runs-on: ubuntu-latest
+    outputs:
+      bash: ${{ steps.versions.outputs.bash }}
+      emmet: ${{ steps.versions.outputs.emmet }}
+      gopls: ${{ steps.versions.outputs.gopls }}
+      go: ${{ steps.versions.outputs.go }}
+      typescript: ${{ steps.versions.outputs.typescript }}
+      vscode: ${{ steps.versions.outputs.vscode }}
+      yaml: ${{ steps.versions.outputs.yaml }}
+      zls: ${{ steps.versions.outputs.zls }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Read versions
+        id: versions
+        run: |
+          node <<'NODE'
+          const fs = require('node:fs');
+          const manifest = JSON.parse(fs.readFileSync('manifest.json', 'utf8'));
+          const versions = Object.fromEntries(manifest.addons.map(addon => [addon.id, addon.version]));
+          if (versions.lsp_json !== versions.lsp_css || versions.lsp_json !== versions.lsp_html) {
+            throw new Error('The VS Code language server versions must match');
+          }
+          const packages = {
+            bash: 'lsp_bash', emmet: 'lsp_emmet', gopls: 'lsp_go', go: 'golang',
+            typescript: 'lsp_typescript', vscode: 'lsp_json', yaml: 'lsp_yaml', zls: 'lsp_zig'
+          };
+          for (const [name, id] of Object.entries(packages)) {
+            if (!versions[id]) throw new Error(`Missing version for ${id}`);
+            fs.appendFileSync(process.env.GITHUB_OUTPUT, `${name}=${versions[id]}\n`);
+          }
+          NODE
+
+  bash:
+    needs: versions
+    uses: ./.github/workflows/bash-language-server.yml
+    with:
+      bash-language-server_version: ${{ needs.versions.outputs.bash }}
+
+  emmet:
+    needs: versions
+    uses: ./.github/workflows/emmet-language-server.yml
+    with:
+      emmet-language-server_version: ${{ needs.versions.outputs.emmet }}
+
+  gopls:
+    needs: versions
+    uses: ./.github/workflows/gopls.yml
+    with:
+      gopls_version: ${{ needs.versions.outputs.gopls }}
+      go_version: ${{ needs.versions.outputs.go }}
+
+  typescript:
+    needs: versions
+    uses: ./.github/workflows/typescript-language-server.yml
+    with:
+      typescript-language-server_version: ${{ needs.versions.outputs.typescript }}
+
+  vscode:
+    needs: versions
+    uses: ./.github/workflows/vscode-languageservers.yaml
+    with:
+      vscode_version: ${{ needs.versions.outputs.vscode }}
+
+  yaml:
+    needs: versions
+    uses: ./.github/workflows/yaml-language-server.yml
+    with:
+      yaml-language-server_version: ${{ needs.versions.outputs.yaml }}
+
+  zls:
+    needs: versions
+    uses: ./.github/workflows/zls.yml
+    with:
+      zls_version: ${{ needs.versions.outputs.zls }}
+
+  verify:
+    name: Verify releases and update latest
+    needs: [bash, emmet, gopls, typescript, vscode, yaml, zls]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22.23.4"
+      - name: Verify published checksums
+        run: |
+          node <<'NODE'
+          const fs = require('node:fs');
+          const crypto = require('node:crypto');
+          const manifest = JSON.parse(fs.readFileSync('manifest.json', 'utf8'));
+          const prefix = 'https://github.com/pragtical/lsp-servers/releases/download/';
+          (async () => {
+            for (const addon of manifest.addons) {
+              for (const file of addon.files || []) {
+                if (!file.url.startsWith(prefix)) continue;
+                let lastError;
+                for (let attempt = 0; attempt < 5; attempt++) {
+                  try {
+                    const response = await fetch(file.url, {signal: AbortSignal.timeout(120000)});
+                    if (!response.ok) throw new Error(`HTTP ${response.status}: ${file.url}`);
+                    const hash = crypto.createHash('sha256');
+                    for await (const chunk of response.body) hash.update(chunk);
+                    if (hash.digest('hex') !== file.checksum) {
+                      throw new Error(`Checksum mismatch: ${file.url}`);
+                    }
+                    console.log(`Verified ${addon.id}: ${file.url}`);
+                    lastError = undefined;
+                    break;
+                  } catch (error) {
+                    lastError = error;
+                    if (attempt < 4) await new Promise(resolve => setTimeout(resolve, 5000));
+                  }
+                }
+                if (lastError) throw lastError;
+              }
+            }
+          })().catch(error => { console.error(error); process.exitCode = 1; });
+          NODE
+      - name: Update latest branch
+        run: |
+          git fetch origin latest
+          git merge-base --is-ancestor origin/latest HEAD
+          git push origin HEAD:refs/heads/latest

@@ -2,6 +2,11 @@
 name: Package yaml-language-server
 
 on:
+  workflow_call:
+    inputs:
+      yaml-language-server_version:
+        type: string
+        required: true
   workflow_dispatch:
     inputs:
       yaml-language-server_version:
@@ -13,7 +18,8 @@ jobs:
   package_all:
     name: Package YAML Language Server
     runs-on: ubuntu-latest
-    permissions: write-all
+    permissions:
+      contents: write
     env:
       VERSION: ${{ inputs.yaml-language-server_version }}
     steps:
@@ -45,4 +51,4 @@ jobs:
         env: { GITHUB_TOKEN: "${{ github.token }}" }
         run: |
           gh release delete -y "yaml-language-server-$VERSION" || true
-          gh release create -t "yaml-language-server-$VERSION" "yaml-language-server-$VERSION" "yaml-language-server-${VERSION}.tar.gz"
+          gh release create --target "${{ github.sha }}" -t "yaml-language-server-$VERSION" "yaml-language-server-$VERSION" "yaml-language-server-${VERSION}.tar.gz"

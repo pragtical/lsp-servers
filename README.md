@@ -68,3 +68,15 @@ ownership so rebuilds can be checked against the manifest checksums.
 
 Publish the matching release artifacts before distributing manifest changes
 that reference newly repackaged servers.
+
+## Publishing
+
+Pushing an `lsp-servers-*` tag runs the Publish language server updates
+workflow. It reads package versions from the manifest and runs the seven
+packaging workflows at that commit. The workflow can also be started manually
+from GitHub Actions.
+
+After publishing, it downloads the repository's release assets and verifies
+their manifest checksums. Only a successful verification fast-forwards the
+`latest` branch. Each packaging workflow remains available for individual
+manual releases.

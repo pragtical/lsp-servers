@@ -2,6 +2,11 @@
 name: Package bash-language-server
 
 on:
+  workflow_call:
+    inputs:
+      bash-language-server_version:
+        type: string
+        required: true
   workflow_dispatch:
     inputs:
       bash-language-server_version:
@@ -13,7 +18,8 @@ jobs:
   package_all:
     name: Package Bash Language Server
     runs-on: ubuntu-latest
-    permissions: write-all
+    permissions:
+      contents: write
     env:
       VERSION: ${{ inputs.bash-language-server_version }}
     steps:
@@ -47,4 +53,4 @@ jobs:
         env: { GITHUB_TOKEN: "${{ github.token }}" }
         run: |
           gh release delete -y "bash-language-server-$VERSION" || true
-          gh release create -t "bash-language-server-$VERSION" "bash-language-server-$VERSION" "bash-language-server-${VERSION}.tar.gz"
+          gh release create --target "${{ github.sha }}" -t "bash-language-server-$VERSION" "bash-language-server-$VERSION" "bash-language-server-${VERSION}.tar.gz"

@@ -2,6 +2,14 @@
 name: Package typescript-language-server
 
 on:
+  workflow_call:
+    inputs:
+      typescript-language-server_version:
+        type: string
+        required: true
+      tsserver_version:
+        type: string
+        default: "6.0.3"
   workflow_dispatch:
     inputs:
       typescript-language-server_version:
@@ -18,7 +26,8 @@ jobs:
   package_all:
     name: Package Typescript Language Server
     runs-on: ubuntu-latest
-    permissions: write-all
+    permissions:
+      contents: write
     env:
       VERSION: ${{ inputs.typescript-language-server_version }}
       TS_VERSION: ${{ inputs.tsserver_version }}
@@ -49,4 +58,4 @@ jobs:
         env: { GITHUB_TOKEN: "${{ github.token }}" }
         run: |
           gh release delete -y "typescript-language-server-$VERSION" || true
-          gh release create -t "typescript-language-server-$VERSION" "typescript-language-server-$VERSION" "tsserver-${VERSION}.tar.gz"
+          gh release create --target "${{ github.sha }}" -t "typescript-language-server-$VERSION" "typescript-language-server-$VERSION" "tsserver-${VERSION}.tar.gz"

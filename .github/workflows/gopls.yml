@@ -2,6 +2,14 @@
 name: Package gopls
 
 on:
+  workflow_call:
+    inputs:
+      gopls_version:
+        type: string
+        required: true
+      go_version:
+        type: string
+        required: true
   workflow_dispatch:
     inputs:
       gopls_version:
@@ -67,4 +75,4 @@ jobs:
         env: { GITHUB_TOKEN: "${{ github.token }}" }
         run: |
           gh release delete -y "gopls-${{ inputs.gopls_version }}" || true
-          gh release create -t "gopls-${{ inputs.gopls_version }}" "gopls-${{ inputs.gopls_version }}" artifacts/gopls-*.tar.gz
+          gh release create --target "${{ github.sha }}" -t "gopls-${{ inputs.gopls_version }}" "gopls-${{ inputs.gopls_version }}" artifacts/gopls-*.tar.gz
