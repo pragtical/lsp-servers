@@ -373,6 +373,11 @@
         "checksum": "a2e703725d8683be86bb5da967bf8272f4518bdaf10f21389e2b2c9eaeae8c8a"
       },
       {
+        "url": "https://nodejs.org/dist/v22.18.0/node-v22.18.0-linux-arm64.tar.gz",
+        "arch": ["aarch64-linux"],
+        "checksum": "d415eeea90a2fdb60c66dd386b258acbfc4d1fa4720a8df5dea7369fbdbcddee"
+      },
+      {
         "url": "https://nodejs.org/dist/v22.18.0/node-v22.18.0-darwin-arm64.tar.gz",
         "arch": ["aarch64-darwin"],
         "checksum": "2c12913cba67af77ded8a399df3fd91c2e7f8628c7079da40bb9ff33bf00dfc0"

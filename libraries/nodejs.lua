@@ -5,6 +5,7 @@ info.version = "node-v22.18.0"
 
 info.path_arch = {}
 info.path_arch["x86_64-linux"]   = info.version .. "-linux-x64"
+info.path_arch["aarch64-linux"]  = info.version .. "-linux-arm64"
 info.path_arch["x86_64-darwin"]  = info.version .. "-darwin-x64"
 info.path_arch["aarch64-darwin"] = info.version .. "-darwin-arm64"
 info.path_arch["x86_64-windows"] = info.version .. "-win-x64"
